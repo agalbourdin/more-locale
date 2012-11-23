@@ -1,0 +1,16 @@
+{
+    "name"       : "agl/more-locale",
+    "type"       : "agl-module",
+    "description": "Additional i18n module for AGL.",
+    "keywords"   : [ "agl", "locale", "gettext", "i18n" ],
+    "homepage"   : "http://www.agl.io/",
+    "license"    : "MIT",
+    "require": {
+        "php"                : ">=5.3.0",
+        "ext-gettext"        : "*",
+        "composer/installers": "*"
+    },
+    "extra": {
+        "installer-name": "Locale"
+    }
+}

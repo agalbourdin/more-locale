@@ -1,12 +1,8 @@
 More/Locale
 ===========
 
-Additional module for AGL.
+Additional i18n module for AGL.
 
-## Installation
+## Installation, Configuration & Usage
 
-Add the Composer package **agl/more-locale** to your main AGL *composer.json* file, and run `php composer.phar install`.
-
-# Configuration & usage
-
-*Will be available soon*
+[**www.agl.io/more/locale**](http://www.agl.io/more/locale)

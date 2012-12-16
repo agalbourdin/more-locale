@@ -214,7 +214,7 @@ class Locale
             }
         }
 
-        $values = \Agl::app()->getConfig('@module[' . \Agl::AGL_MORE_POOL . '/locale]/params', true);
+        $values = \Agl::app()->getConfig('@module[' . \Agl::AGL_MORE_POOL . '/locale]/values', true);
         foreach ($values as $value) {
             if (is_string($value)) {
                 $this->_paramsValues[_($value)] = $value;

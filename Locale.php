@@ -50,11 +50,16 @@ class Locale
      * @var array Associative array
      */
     private $_locales = array(
-        'fr' => 'fr_FR',
-        'en' => 'en_US',
-        'es' => 'es_ES',
+        'cn' => 'zh_CN',
         'de' => 'de_DE',
-        'it' => 'it_IT'
+        'en' => 'en_GB',
+        'es' => 'es_ES',
+        'fr' => 'fr_FR',
+        'it' => 'it_IT',
+        'jp' => 'ja_JP',
+        'ko' => 'ko_KR',
+        'ru' => 'ru_RU',
+        'us' => 'en_US'
     );
 
     /**
@@ -90,7 +95,7 @@ class Locale
             throw new \Agl\Exception("Incorrect accepted languages configuration");
         }
 
-        $domainsLanguages = \Agl::app()->getConfig('@module[' . \Agl::AGL_MORE_POOL . '/locale]/domain');
+        $domainsLanguages = \Agl::app()->getConfig('@module[' . \Agl::AGL_MORE_POOL . '/locale]/domains');
         if (is_array($domainsLanguages)) {
             $this->_domainsLanguages = $domainsLanguages;
         }
@@ -152,16 +157,21 @@ class Locale
     public function setLanguage($pLang = NULL)
     {
         if (! empty($this->_domainsLanguages)) {
-            $key = \Agl\Core\Data\Arr::arraySearch($_SERVER['HTTP_HOST'], $this->_domainsLanguages);
-            if ($key !== false) {
-                $this->_language = $this->_domainsLanguages[$key]['lang'];
+            preg_match('/([^.]+(.[a-z]+))$/', $_SERVER['HTTP_HOST'], $matches);
+            if (isset($matches[0]) and array_key_exists($matches[0], $this->_domainsLanguages)) {
+                $lang = $this->_domainsLanguages[$matches[0]];
+                if ($this->_isLanguageAccepted($lang)) {
+                    $this->_language = $lang;
+                }
             }
         }
 
-        if ($this->_language === NULL and preg_match('/^[a-z]{2}$/', $pLang) and $this->_isLanguageAccepted($pLang)) {
-            $this->_language = $pLang;
-        } else {
-            $this->_language = $this->_defaultLanguage;
+        if ($this->_language === NULL) {
+            if (preg_match('/^[a-z]{2}$/', $pLang) and $this->_isLanguageAccepted($pLang)) {
+                $this->_language = $pLang;
+            } else {
+                $this->_language = $this->_defaultLanguage;
+            }
         }
 
         if (! isset($this->_locales[$this->_language])) {
@@ -245,7 +255,10 @@ class Locale
     public function getUrl($pUrl, array $pParams = array(), $pRelative = true)
     {
         if (! $pUrl) {
-            return ROOT;
+            if ($pRelative) {
+                return ROOT;
+            }
+            return self::getHostUrl();
         }
 
         $translatedUrl = _($pUrl);

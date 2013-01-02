@@ -87,12 +87,12 @@ class Locale
     {
         $this->_defaultLanguage = \Agl::app()->getConfig('@module[' . \Agl::AGL_MORE_POOL . '/locale]/default');
         if (! is_string($this->_defaultLanguage)or ! isset($this->_locales[$this->_defaultLanguage])) {
-            throw new \Agl\Exception("Incorrect default language code");
+            throw new \Exception("Incorrect default language code");
         }
 
         $this->_acceptedLanguages = \Agl::app()->getConfig('@module[' . \Agl::AGL_MORE_POOL . '/locale]/accepted');
         if (! in_array($this->_defaultLanguage, $this->_acceptedLanguages)) {
-            throw new \Agl\Exception("Incorrect accepted languages configuration");
+            throw new \Exception("Incorrect accepted languages configuration");
         }
 
         $domainsLanguages = \Agl::app()->getConfig('@module[' . \Agl::AGL_MORE_POOL . '/locale]/domains');
@@ -175,7 +175,7 @@ class Locale
         }
 
         if (! isset($this->_locales[$this->_language])) {
-            throw new \Agl\Exception("Invalid locale");
+            throw new \Exception("Invalid locale");
         }
 
         $this->_setLocale($this->_locales[$this->_language] . '.' . self::ENCODING);

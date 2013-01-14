@@ -1,6 +1,10 @@
 <?php
 namespace Agl\More\Locale;
 
+use \Agl\Core\Agl,
+    \Agl\Core\Url\Url,
+    \Exception;
+
 /**
  * Setting the locale.
  *
@@ -85,17 +89,17 @@ class Locale
      */
     public function __construct()
     {
-        $this->_defaultLanguage = \Agl::app()->getConfig('@module[' . \Agl::AGL_MORE_POOL . '/locale]/default');
+        $this->_defaultLanguage = Agl::app()->getConfig('@module[' . Agl::AGL_MORE_POOL . '/locale]/default');
         if (! is_string($this->_defaultLanguage)or ! isset($this->_locales[$this->_defaultLanguage])) {
-            throw new \Exception("Incorrect default language code");
+            throw new Exception("Incorrect default language code");
         }
 
-        $this->_acceptedLanguages = \Agl::app()->getConfig('@module[' . \Agl::AGL_MORE_POOL . '/locale]/accepted');
+        $this->_acceptedLanguages = Agl::app()->getConfig('@module[' . Agl::AGL_MORE_POOL . '/locale]/accepted');
         if (! in_array($this->_defaultLanguage, $this->_acceptedLanguages)) {
-            throw new \Exception("Incorrect accepted languages configuration");
+            throw new Exception("Incorrect accepted languages configuration");
         }
 
-        $domainsLanguages = \Agl::app()->getConfig('@module[' . \Agl::AGL_MORE_POOL . '/locale]/domains');
+        $domainsLanguages = Agl::app()->getConfig('@module[' . Agl::AGL_MORE_POOL . '/locale]/domains');
         if (is_array($domainsLanguages)) {
             $this->_domainsLanguages = $domainsLanguages;
         }
@@ -108,8 +112,8 @@ class Locale
      */
     private function _getAppLocalePath()
     {
-        return \Agl::app()->getPath()
-               . \Agl::APP_ETC_DIR
+        return Agl::app()->getPath()
+               . Agl::APP_ETC_DIR
                . DS
                . 'locale';
     }
@@ -175,7 +179,7 @@ class Locale
         }
 
         if (! isset($this->_locales[$this->_language])) {
-            throw new \Exception("Invalid locale");
+            throw new Exception("Invalid locale");
         }
 
         $this->_setLocale($this->_locales[$this->_language] . '.' . self::ENCODING);
@@ -210,21 +214,21 @@ class Locale
      */
     private function _translateUrls()
     {
-        $urls = \Agl::app()->getConfig('@module[' . \Agl::AGL_MORE_POOL . '/locale]/urls', true);
+        $urls = Agl::app()->getConfig('@module[' . Agl::AGL_MORE_POOL . '/locale]/urls', true);
         foreach ($urls as $url) {
             if (is_string($url)) {
                 $this->_urls[_($url)] = $url;
             }
         }
 
-        $params = \Agl::app()->getConfig('@module[' . \Agl::AGL_MORE_POOL . '/locale]/params', true);
+        $params = Agl::app()->getConfig('@module[' . Agl::AGL_MORE_POOL . '/locale]/params', true);
         foreach ($params as $param) {
             if (is_string($param)) {
                 $this->_params[_($param)] = $param;
             }
         }
 
-        $values = \Agl::app()->getConfig('@module[' . \Agl::AGL_MORE_POOL . '/locale]/values', true);
+        $values = Agl::app()->getConfig('@module[' . Agl::AGL_MORE_POOL . '/locale]/values', true);
         foreach ($values as $value) {
             if (is_string($value)) {
                 $this->_paramsValues[_($value)] = $value;
@@ -263,7 +267,7 @@ class Locale
 
         $translatedUrl = _($pUrl);
 
-        if (strpos($pUrl, \Agl::APP_PUBLIC_DIR) === false) {
+        if (strpos($pUrl, Agl::APP_PUBLIC_DIR) === false) {
             if (! empty($pParams)) {
                 $params = array();
                 foreach ($pParams as $key => $value) {
@@ -281,13 +285,13 @@ class Locale
             if ($pRelative) {
                 return ROOT . $url;
             }
-            return \Agl\Core\Url\Url::getHostUrl($url);
+            return Url::getHostUrl($url);
         }
 
         if ($pRelative) {
             return ROOT . $translatedUrl;
         }
-        return \Agl\Core\Url\Url::getHostUrl($translatedUrl);
+        return Url::getHostUrl($translatedUrl);
     }
 
     /**

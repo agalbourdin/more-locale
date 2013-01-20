@@ -112,7 +112,7 @@ class Locale
      */
     private function _getAppLocalePath()
     {
-        return Agl::app()->getPath()
+        return APP_PATH
                . Agl::APP_ETC_DIR
                . DS
                . 'locale';

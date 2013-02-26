@@ -49,6 +49,13 @@ class Locale
     private $_domainsLanguages = array();
 
     /**
+     * Is the language determined by an URL parameter or the current domain.
+     *
+     * @var bool
+     */
+    private $_useDomain = false;
+
+    /**
      * List of supported locales.
      *
      * @var array Associative array
@@ -165,7 +172,8 @@ class Locale
             if (isset($matches[0]) and array_key_exists($matches[0], $this->_domainsLanguages)) {
                 $lang = $this->_domainsLanguages[$matches[0]];
                 if ($this->_isLanguageAccepted($lang)) {
-                    $this->_language = $lang;
+                    $this->_language  = $lang;
+                    $this->_useDomain = true;
                 }
             }
         }
@@ -254,15 +262,37 @@ class Locale
      * @param string $pUrl URL to get (module/view)
      * @param array $pParams Parameters to include into the request
      * @param bool $pRelative Create a relative URL
+     * @param null|string $pLang Force URL to be generated with a specific lang
      * @return string
      */
-    public function getUrl($pUrl, array $pParams = array(), $pRelative = true)
+    public function getUrl($pUrl, array $pParams = array(), $pRelative = true, $pLang = NULL)
     {
+        if ($pLang === NULL or ! $this->_isLanguageAccepted($pLang)) {
+            $pLang = $this->_language;
+        }
+
+        if ($pRelative or $pLang === $this->_language) {
+            $domain = '';
+            $root = ROOT;
+            if (! $this->_useDomain and $pLang !== $this->_defaultLanguage) {
+                $root .= $pLang . DS;
+            }
+        } else {
+            $domain = array_search($pLang, $this->_domainsLanguages);
+            $root = ROOT;
+            if ($domain === false) {
+                $domain = '';
+                if (! $this->_useDomain and $pLang !== $this->_defaultLanguage) {
+                    $root .= $pLang . DS;
+                }
+            }
+        }
+
         if (! $pUrl) {
             if ($pRelative) {
-                return ROOT;
+                return $root;
             }
-            return self::getHostUrl();
+            return self::getHost($root, $domain);
         }
 
         $translatedUrl = _($pUrl);
@@ -276,22 +306,22 @@ class Locale
 
                 $url = $translatedUrl . DS . implode(DS, $params) . DS;
                 if ($pRelative) {
-                    return ROOT . $url;
+                    return $root . $url;
                 }
-                return self::getHostUrl($url);
+                return self::getHost($root . $url, $domain);
             }
 
             $url = $translatedUrl . DS;
             if ($pRelative) {
-                return ROOT . $url;
+                return $root . $url;
             }
-            return Url::getHostUrl($url);
+            return Url::getHost($root . $url, $domain);
         }
 
         if ($pRelative) {
-            return ROOT . $translatedUrl;
+            return $root . $translatedUrl;
         }
-        return Url::getHostUrl($translatedUrl);
+        return Url::getHost($root . $translatedUrl, $domain);
     }
 
     /**
@@ -322,5 +352,15 @@ class Locale
     public function getParamsValues()
     {
         return $this->_paramsValues;
+    }
+
+    /**
+     * Return list of accepted languages.
+     *
+     * @return array
+     */
+    public function getAcceptedLanguages()
+    {
+        return $this->_acceptedLanguages;
     }
 }

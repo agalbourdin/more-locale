@@ -64,6 +64,20 @@ For example:
 		]
 	}
 
+Add also those two events to your `app/etc/config/core/events.json`
+
+	"agl_set_request_before": {
+		"more/locale/observer": [
+			"translateRequest"
+		]
+	},
+
+	"agl_set_request_after": {
+		"more/locale/observer": [
+			"redirectOrig"
+		]
+	}
+
 ### Gettext files
 
 Create also your Gettext files for each language, for example:
@@ -90,4 +104,14 @@ If you don't use a domain name per language, start your URLs with the language c
 
 ### Get accepted languages
 
-	Agl::app()->getConfig('more/locale]/accepted');
+	Agl::getSingleton('more/locale')->getAcceptedLanguages();
+
+### Create an URL with a specific language
+
+Instead of calling Agl::getUrl(), which use the current language, call the following method with a $pLang parameter.
+
+	Agl::getSingleton('more/locale')->getUrl($pPath, $pParams, $pRelative, $pLang);
+
+For example:
+
+	Agl::getSingleton('more/locale')->getUrl('game/upload', array(), true, 'fr');

@@ -257,6 +257,16 @@ class Locale
     }
 
     /**
+     * Get current locale code.
+     *
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->_locales[$this->_language];
+    }
+
+    /**
      * Return a formated URL with module, view, action and parameters.
      *
      * @param string $pUrl URL to get (module/view)

@@ -1,0 +1,18 @@
+{
+    "default" : "en",
+    "accepted": [
+        "en"
+    ],
+    "domains" : {
+
+    },
+    "urls"    : [
+
+    ],
+    "params"  : [
+
+    ],
+    "values"  : [
+
+    ]
+}

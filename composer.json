@@ -17,7 +17,6 @@
     "autoload": {
         "psr-0": {
             "Agl\\More\\Locale": "src/"
-        },
-        "files": ["etc/config/Loader.php"]
+        }
     }
 }

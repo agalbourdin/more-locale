@@ -56,6 +56,13 @@ class Locale
     private $_useDomain = false;
 
     /**
+     * Show default language in URLs.
+     *
+     * @var bool
+     */
+    private $_showDefault = false;
+
+    /**
      * List of supported locales.
      *
      * @var array Associative array
@@ -93,9 +100,16 @@ class Locale
      *
      * We get the defaultLanguage, acceptedLanguages and domainsLanguages from the configuration.
      * The current language is determined by a call to the _getRequestedLanguage method.
+     *
+     * @param mixed $pShowDefault Show default language in URLs
      */
-    public function __construct()
+    public function __construct($pShowDefault = NULL)
     {
+        if (($pShowDefault === NULL and Agl::app()->getConfig('@module[more/locale]/show_default_in_url'))
+            or $pShowDefault) {
+            $this->_showDefault = true;
+        }
+
         $this->_defaultLanguage = Agl::app()->getConfig('@module[' . Agl::AGL_MORE_POOL . '/locale]/default');
         if (! is_string($this->_defaultLanguage)or ! isset($this->_locales[$this->_defaultLanguage])) {
             throw new Exception("Incorrect default language code");
@@ -284,7 +298,7 @@ class Locale
         if ($pRelative or $pLang === $this->_language) {
             $domain = '';
             $root = ROOT;
-            if (! $this->_useDomain and $pLang !== $this->_defaultLanguage) {
+            if (! $this->_useDomain and ($this->_showDefault or $pLang !== $this->_defaultLanguage)) {
                 $root .= $pLang . DS;
             }
         } else {
@@ -292,7 +306,7 @@ class Locale
             $root = ROOT;
             if ($domain === false) {
                 $domain = '';
-                if (! $this->_useDomain and $pLang !== $this->_defaultLanguage) {
+                if (! $this->_useDomain and ($this->_showDefault or $pLang !== $this->_defaultLanguage)) {
                     $root .= $pLang . DS;
                 }
             }

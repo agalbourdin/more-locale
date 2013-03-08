@@ -1,5 +1,6 @@
 {
     "default" : "en",
+    "show_default_in_url": 0,
     "accepted": [
         "en"
     ],

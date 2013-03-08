@@ -33,9 +33,9 @@ class Observer
         $requestUri     = &$pObserver['request_uri'];
         $locale         = Agl::getSingleton(Agl::AGL_MORE_POOL . '/locale/locale');
 
-        if (preg_match('#^' . DS . '[a-z]{2}(' . DS . '|$)#', $requestUri, $matches)) {
-            $requestUri = str_replace($matches[0], '', $requestUri);
-            $lang       = str_replace(DS, '', $matches[0]);
+        if (preg_match('#^' . DS . '([a-z]{2})(' . DS . '|$)#', $requestUri, $matches)) {
+            $requestUri = DS . str_replace($matches[0], '', $requestUri);
+            $lang       = $matches[1];
             $locale->setLanguage($lang);
         } else {
             $locale->setLanguage();

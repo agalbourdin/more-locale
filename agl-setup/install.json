@@ -1,0 +1,16 @@
+{
+	"config/main.json": {
+		"dir": "app/etc/config/more/locale/",
+		"file": "main.json"
+	},
+
+	"config/events.json": {
+		"dir": "app/etc/config/more/locale/",
+		"file": "events.json"
+	},
+
+	"config/default.po": {
+		"dir": "app/etc/locale/en_GB.utf8/LC_MESSAGES/",
+		"file": "default.po"
+	}
+}

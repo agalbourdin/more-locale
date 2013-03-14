@@ -316,7 +316,7 @@ class Locale
             if ($pRelative) {
                 return $root;
             }
-            return self::getHost($root, $domain);
+            return Url::getHost($root, $domain);
         }
 
         $translatedUrl = _($pUrl);
@@ -332,7 +332,7 @@ class Locale
                 if ($pRelative) {
                     return $root . $url;
                 }
-                return self::getHost($root . $url, $domain);
+                return Url::getHost($root . $url, $domain);
             }
 
             $url = $translatedUrl . DS;

@@ -103,14 +103,19 @@ class Locale
      *
      * @param mixed $pShowDefault Show default language in URLs
      */
-    public function __construct($pShowDefault = NULL)
+    public function __construct($pShowDefault = NULL, $pDefaultLang = NULL)
     {
         if (($pShowDefault === NULL and Agl::app()->getConfig('@module[more/locale]/show_default_in_url'))
             or $pShowDefault) {
             $this->_showDefault = true;
         }
 
-        $this->_defaultLanguage = Agl::app()->getConfig('@module[' . Agl::AGL_MORE_POOL . '/locale]/default');
+        if ($pDefaultLang === NULL) {
+            $this->_defaultLanguage = Agl::app()->getConfig('@module[' . Agl::AGL_MORE_POOL . '/locale]/default');
+        } else {
+            $this->_defaultLanguage = $pDefaultLang;
+        }
+
         if (! is_string($this->_defaultLanguage)or ! isset($this->_locales[$this->_defaultLanguage])) {
             throw new Exception("Incorrect default language code");
         }

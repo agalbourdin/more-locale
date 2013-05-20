@@ -9,74 +9,15 @@ Add the following package to the `require` section of your application's `compos
 
 	"agl/more-locale": "*"
 
+Then run the following command:
+
+	php composer.phar update
+
 ## Configuration
 
 ### Configuration file
 
-In your application, create a file `app/etc/config/more/locale.json` with the following content:
-
-	{
-		"default" : "en",
-		"accepted": [
-			"en"
-		],
-		"domains" : {
-
-		},
-		"urls"    : [
-
-		],
-		"params"  : [
-
-		],
-		"values"  : [
-
-		]
-	}
-
-* *default*: default language of your application
-* *accepted*: an array of languages accepted by your application
-* *domains*: optional, associative array to automatically set language depending of the domain name
-* *urls*: optional, list of urls (*module/view*) to translate (should be added to your Gettext files)
-* *params*: optional, list of parameters names to translate (should be added to your Gettext files)
-* *values*: optional, list of parameters values to translate (should be added to your Gettext files)
-
-For example:
-
-	{
-		"default" : "en",
-		"accepted": [
-			"en",
-			"fr"
-		],
-		"domains" : {
-			"domain.com": "en",
-			"domain.fr": "fr"
-		},
-		"urls"    : [
-			"home/project"
-		],
-		"params"  : [
-			"param_name"
-		],
-		"values"  : [
-			"param_value"
-		]
-	}
-
-Add also those two events to your `app/etc/config/core/events.json`
-
-	"agl_set_request_before": {
-		"more/locale/observer": [
-			"translateRequest"
-		]
-	},
-
-	"agl_set_request_after": {
-		"more/locale/observer": [
-			"redirectOrig"
-		]
-	}
+Edit `app/etc/config/more/locale/main.php` to configure the module.
 
 ### Gettext files
 
@@ -94,7 +35,7 @@ Create also your Gettext files for each language, for example:
 
 If you don't use a domain name per language, start your URLs with the language code you want to use. For example: `http://domain.tld/en/` or  `http://domain.tld/fr/`.
 
-### Display i18n string
+### Display i18n string (GetText syntax)
 
 	echo _("String");
 

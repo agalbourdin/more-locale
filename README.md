@@ -1,17 +1,13 @@
-More/Locale
-===========
+AGL Framework - More/Locale
+===========================
 
-Additional I18n module for AGL.
+Additional I18n module for [AGL Framework](https://github.com/agl-php/agl-app).
 
 ## Installation
 
-Add the following package to the `require` section of your application's `composer.json` file:
+Run the following command in the root of your AGL application:
 
-	"agl/more-locale": "*"
-
-Then run the following command:
-
-	php composer.phar update
+	php composer.phar require agl/more-locale:*
 
 ## Configuration
 
@@ -21,7 +17,7 @@ Edit `app/etc/config/more/locale/main.php` to configure the module.
 
 ### Gettext files
 
-Create also your Gettext files for each language, for example:
+Create also Gettext files for each language you wish to use, for example:
 
 `app/etc/locale/en_GB.utf8/LC_MESSAGES/default.mo`
 `app/etc/locale/en_GB.utf8/LC_MESSAGES/default.po`
@@ -33,7 +29,7 @@ Create also your Gettext files for each language, for example:
 
 ### Select language
 
-If you don't use a domain name per language, start your URLs with the language code you want to use. For example: `http://domain.tld/en/` or  `http://domain.tld/fr/`.
+If you don't use a domain name per language, start your URLs with the language code you want to use. For example: `http://domain.tld/en/` or `http://domain.tld/fr/`.
 
 ### Display i18n string (GetText syntax)
 
@@ -49,7 +45,7 @@ If you don't use a domain name per language, start your URLs with the language c
 
 ### Create an URL with a specific language
 
-Instead of calling Agl::getUrl(), which use the current language, call the following method with a $pLang parameter.
+Instead of calling Agl::getUrl(), which uses the current language, call the following method with a $pLang parameter.
 
 	Agl::getSingleton('more/locale')->getUrl($pPath, $pParams, $pRelative, $pLang);
 

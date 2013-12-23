@@ -18,5 +18,7 @@
         "psr-0": {
             "Agl\\More\\Locale": "src/"
         }
-    }
+    },
+
+    "minimum-stability": "dev"
 }

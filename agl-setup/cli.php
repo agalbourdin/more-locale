@@ -7,17 +7,17 @@ return array(
     'file:copy' => array(
         array(
             $currentDir . 'app/etc/config/more/locale/main.php',
-            APP_PATH    . 'app/etc/config/more/locale/main.php'
+            $appPath    . 'app/etc/config/more/locale/main.php'
         ),
 
         array(
             $currentDir . 'app/etc/config/more/locale/events.php',
-            APP_PATH    . 'app/etc/config/more/locale/events.php'
+            $appPath    . 'app/etc/config/more/locale/events.php'
         ),
 
         array(
             $currentDir . 'app/etc/locale/en_GB.utf8/LC_MESSAGES/default.po',
-            APP_PATH    . 'app/etc/locale/en_GB.utf8/LC_MESSAGES/default.po'
+            $appPath    . 'app/etc/locale/en_GB.utf8/LC_MESSAGES/default.po'
         )
     )
 );

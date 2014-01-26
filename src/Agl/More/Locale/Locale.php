@@ -289,12 +289,12 @@ class Locale
      * Return a formated URL with module, view, action and parameters.
      *
      * @param string $pUrl URL to get (module/view)
-     * @param array $pParams Parameters to include into the request
+     * @param array string|array $pParams Parameters to include into the request
      * @param bool $pRelative Create a relative URL
      * @param null|string $pLang Force URL to be generated with a specific lang
      * @return string
      */
-    public function getUrl($pUrl, array $pParams = array(), $pRelative = true, $pLang = NULL)
+    public function getUrl($pUrl, $pParams = array(), $pRelative = true, $pLang = NULL)
     {
         if ($pLang === NULL or ! $this->_isLanguageAccepted($pLang)) {
             $pLang = $this->_language;
@@ -327,20 +327,19 @@ class Locale
         $translatedUrl = _($pUrl);
 
         if (strpos($pUrl, Agl::APP_PUBLIC_DIR) === false) {
-            if (! empty($pParams)) {
+            if (is_array($pParams) and ! empty($pParams)) {
                 $params = array();
                 foreach ($pParams as $key => $value) {
                     $params[] = _($key) . DS . $value;
                 }
 
                 $url = $translatedUrl . DS . implode(DS, $params) . DS;
-                if ($pRelative) {
-                    return $root . $url;
-                }
-                return Url::getHost($root . $url, $domain);
+            } else if (is_string($pParams) and $pParams) {
+                $url = $translatedUrl . DS . $pParams . DS;
+            } else {
+                $url = $translatedUrl . DS;
             }
 
-            $url = $translatedUrl . DS;
             if ($pRelative) {
                 return $root . $url;
             }

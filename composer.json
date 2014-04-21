@@ -15,8 +15,8 @@
         "ext-gettext": "*"
     },
     "autoload": {
-        "psr-0": {
-            "Agl\\More\\Locale": "src/"
+        "psr-4": {
+            "Agl\\More\\Locale\\": "src/"
         }
     },
 
